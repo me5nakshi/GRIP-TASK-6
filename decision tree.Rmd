@@ -1,0 +1,67 @@
+---
+title: "Meenakshi Porwal"
+output:
+  html_document:
+    df_print: paged
+---
+#THE SPARK FOUNDATION:Task#6 Decision Tree classifier and visualize it graphically.
+
+#LOADING THE DATASET
+```{r}
+data("iris")
+head(iris)
+str(iris)
+
+```
+
+#PARTITIONING THE DATA
+```{r}
+Sample = sample(150,100)
+iris_train = iris[Sample,]
+iris_test = iris[-Sample,]
+
+dim(iris_train)
+dim(iris_test)
+```
+
+#IMPORT REQUIRED LIBRARIES
+```{r}
+library(rpart)
+library(rpart.plot)
+library(party)
+```
+
+#DECISION TREE MODEL
+```{r}
+DTM = rpart(Species~. , iris_train , method = "class")
+DTM
+
+```
+
+#VISUALIZE THE TREE 
+```{r}
+rpart.plot(DTM,type = 3, extra = 101)
+
+```
+
+#UTILISE TREE AND PREDICTING
+```{r}
+prediction = predict(DTM,iris_test,type = "class")
+table(iris_test[,5], prediction)
+
+```
+#CONDITIONAL TREE
+```{r}
+tree = ctree(Species ~ .,iris)
+plot(tree, main="Conditional Inference Tree for Iris")
+table(predict(tree), iris$Species)
+```
+
+
+#PREDICTING ANY NEW MODEL
+```{r}
+Predict_Species=data.frame(Sepal.Length=c(3.8),Sepal.Width=c(3.4),Petal.Length=c(2.2),Petal.Width=c(0.6))
+p1=predict(DTM,Predict_Species)
+p1
+```
+
